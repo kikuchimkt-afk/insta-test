@@ -1,396 +1,411 @@
 <!doctype html>
 <html lang="ja" class="h-full">
-
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Feed Carousel - Emotional</title>
+  <title>教育戦略フィード</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Yomogi&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Shippori+Mincho:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      --color-bg: #0a0a0a;
+      --color-surface: #1a1a1a;
+      --color-text: #f5f5f5;
+      --color-accent: #c9a227;
+      --color-muted: #737373;
     }
-
-    body {
-      font-family: 'Zen Maru Gothic', sans-serif;
-      background-color: #fdfcf8;
-      /* Warm paper */
-      color: #4a4a4a;
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
-
-    .yomogi {
-      font-family: 'Yomogi', cursive;
+    
+    .font-mincho {
+      font-family: 'Shippori Mincho', serif;
     }
-
-    .slide-container {
-      aspect-ratio: 4 / 5;
-      /* Instagram Portrait */
-      width: 100%;
-      max-width: 540px;
-      /* Max display width */
-      background: #fdfcf8;
+    
+    .font-gothic {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
     }
-
-    /* Typography & Design */
-    .text-hand {
-      font-family: 'Yomogi', cursive;
-      line-height: 1.6;
+    
+    .feed-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: auto;
+      height: 100%;
     }
-
-    .highlight-marker {
-      background: linear-gradient(transparent 60%, rgba(255, 159, 67, 0.3) 60%);
-      padding: 0 4px;
-    }
-
-    .highlight-marker-blue {
-      background: linear-gradient(transparent 60%, rgba(84, 160, 255, 0.3) 60%);
-      padding: 0 4px;
-    }
-
-    .circle-date {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: #fff;
-      border: 3px solid #4a4a4a;
+    
+    .feed-slide {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+      padding: 2rem 1.5rem;
+      box-sizing: border-box;
     }
-
-    /* Styles for Recording */
-    body.is-recording .slide-nav-btn,
-    body.is-recording .slide-counter,
-    body.is-recording #recordBtn {
-      display: none !important;
+    
+    .text-reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: reveal 0.8s ease forwards;
     }
-
-    /* Navigation */
-    .slide-nav-btn {
-      transition: all 0.2s ease;
+    
+    .text-reveal:nth-child(1) { animation-delay: 0.1s; }
+    .text-reveal:nth-child(2) { animation-delay: 0.3s; }
+    .text-reveal:nth-child(3) { animation-delay: 0.5s; }
+    .text-reveal:nth-child(4) { animation-delay: 0.7s; }
+    .text-reveal:nth-child(5) { animation-delay: 0.9s; }
+    
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-
-    .slide-nav-btn:hover {
-      transform: scale(1.1);
+    
+    .slide-indicator {
+      width: 4px;
+      height: 24px;
+      background: var(--color-muted);
+      border-radius: 2px;
+      transition: all 0.3s ease;
     }
-
-    .slide-nav-btn.active {
-      transform: scale(1.2);
-      background-color: #4a4a4a;
+    
+    .slide-indicator.active {
+      height: 48px;
+      background: var(--color-accent);
+    }
+    
+    .em-dash::before {
+      content: "——";
+      display: block;
+      color: var(--color-accent);
+      margin: 1.5rem 0;
+      letter-spacing: 0.5em;
+    }
+    
+    .quote-mark {
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--color-accent);
+      opacity: 0.4;
+    }
+    
+    .cta-box {
+      border: 1px solid var(--color-accent);
+      background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, transparent 100%);
     }
   </style>
+  <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-</head>
-
-<body class="h-full overflow-auto">
-  <div class="min-h-full w-full flex flex-col items-center justify-start p-4 pb-8">
-
-    <!-- Slide Container -->
-    <div class="slide-container relative overflow-hidden shadow-xl rounded-sm border border-gray-100"
-      id="slideContainer">
-
-      <!-- Slide 1: Emotional Hook -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center" data-slide="1">
-        <div class="space-y-12">
-          <p class="text-3xl font-bold leading-loose text-gray-700">
-            「自分のときは、<br>
-            誰も教えてくれなかった」
-          </p>
-          <div class="w-12 h-1 bg-gray-300 mx-auto rounded-full"></div>
-          <div class="space-y-6 text-xl text-gray-500 font-medium">
-            <p>高校選びのこと。</p>
-            <p>受験のこと。</p>
-            <p>本当の戦い方。</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 2: Regret/Realization -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
-        data-slide="2">
-        <div class="space-y-10">
-          <p class="text-2xl text-gray-600 font-medium">
-            なんとなく決めた、あの頃。
-          </p>
-          <h2 class="text-3xl font-bold leading-normal text-gray-800">
-            <span class="highlight-marker">「もっと知っていれば」</span><br>
-            と思ったことは<br>ありませんか？
-          </h2>
-        </div>
-      </div>
-
-      <!-- Slide 3: Parent's Wish -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
-        data-slide="3">
-        <div class="space-y-12">
-          <p class="text-2xl text-gray-400 font-bold">でも、</p>
-
-          <h2 class="text-3xl font-bold leading-relaxed text-gray-800">
-            子どもには<br>
-            <span class="text-4xl text-teal-600">同じ思いをさせたくない。</span>
-          </h2>
-
-          <p class="text-xl text-gray-600 mt-8">
-            それが、今のあなたの<br>本音ではありませんか。
-          </p>
-        </div>
-      </div>
-
-      <!-- Slide 4: The 3 Critical Tests -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-8 text-center hidden"
-        data-slide="4">
-        <h3 class="text-xl text-gray-500 font-bold mb-8">徳島の高校入試は、</h3>
-
-        <div class="flex justify-center gap-6 mb-10 w-full">
-          <div class="circle-date">
-            <span class="text-4xl font-black font-sans">10</span>
-            <span class="text-sm font-bold">月</span>
-          </div>
-          <div class="circle-date">
-            <span class="text-4xl font-black font-sans">11</span>
-            <span class="text-sm font-bold">月</span>
-          </div>
-          <div class="circle-date border-teal-500 text-teal-600 bg-teal-50">
-            <span class="text-4xl font-black font-sans">1</span>
-            <span class="text-sm font-bold">月</span>
-          </div>
-        </div>
-
-        <p class="text-2xl font-bold text-gray-800 mb-10 leading-relaxed">
-          この3回のテストが<br>
-          <span class="highlight-marker">合否を左右します。</span>
-        </p>
-
-        <div class="space-y-3">
-          <p class="text-lg text-gray-400">知らないまま迎えるか。</p>
-          <p class="text-2xl font-bold text-teal-700">知ったうえで準備するか。</p>
-        </div>
-
-        <p class="text-2xl font-black text-gray-800 mt-10 tracking-widest">未来は変わります。</p>
-      </div>
-
-      <!-- Slide 5: Reassurance -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
-        data-slide="5">
-        <div class="space-y-12">
-          <h2 class="text-3xl font-bold leading-relaxed text-gray-800">
-            受験に詳しくなくても<br>
-            <span class="highlight-marker-blue">大丈夫です。</span>
-          </h2>
-
-          <p class="text-lg text-gray-600 leading-loose">
-            親がすべてを<br>知っている必要はありません。
-          </p>
-
-          <div class="bg-gray-100 p-6 rounded-xl">
-            <p class="text-xl font-bold text-gray-700">
-              大切なのは、<br>
-              <span class="text-teal-600 text-2xl">正しい情報を持つこと。</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 6: Event Info -->
-      <div class="slide absolute inset-0 flex flex-col justify-center items-center p-8 text-center hidden"
-        data-slide="6">
-        <div class="border-2 border-gray-800 px-8 py-2 rounded-full mb-10">
-          <p class="text-lg font-bold tracking-widest text-gray-800">中学生 保護者会</p>
-        </div>
-
-        <div class="space-y-6 mb-10 w-full">
-          <div>
-            <p class="text-xs text-gray-500 font-bold mb-1">開催日時 (各回 約1時間)</p>
-            <p class="text-2xl font-black text-gray-800">2月21日(土) <span class="text-base font-normal">13:00~</span></p>
-            <p class="text-2xl font-black text-gray-800">2月22日(日) <span class="text-base font-normal">13:00~ /
-                19:00~</span></p>
-          </div>
-
-          <div>
-            <p class="text-xs text-gray-500 font-bold mb-1">場所</p>
-            <p class="yomogi text-sm font-bold text-teal-600 mb-1">「基礎学に一番強い塾」</p>
-            <p class="text-xl font-bold text-gray-800">ECCベストワン藍住</p>
-          </div>
-        </div>
-
-        <div class="bg-teal-50 px-6 py-3 rounded-lg border border-teal-100 mb-8 inline-block">
-          <p class="text-lg text-teal-800 font-bold">定員 <span class="text-3xl">10</span> 名 <span
-              class="text-sm font-normal">（先着順）</span></p>
-        </div>
-
-        <div class="space-y-2 mb-2 w-full px-4">
-          <a href="tel:0886925483"
-            class="block w-full bg-gray-800 text-white py-3 rounded-full font-bold shadow-md hover:bg-gray-700 transition">
-            📞 電話で予約 (088-692-5483)
-          </a>
-          <a href="https://forms.gle/n6GRdVbe7jisfEBS8" target="_blank"
-            class="block w-full bg-teal-500 text-white py-3 rounded-full font-bold shadow-md hover:bg-teal-600 transition">
-            📝 Webフォームから予約
-          </a>
-        </div>
-        <!-- Adding the promotional page link -->
-        <div class="mt-2">
-          <a href="https://202602-parents-meeting-bestone.vercel.app/" target="_blank"
-            class="inline-block text-gray-500 underline text-xs">
-            詳しい案内ページはこちら
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recording Button -->
-    <button id="recordBtn"
-      class="mt-6 bg-rose-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-rose-600 transition flex items-center gap-2">
-      <span class="text-xl">🎥</span> 動画として保存
-    </button>
-
-    <!-- Navigation Dots -->
-    <div class="flex gap-3 mt-8" id="dots">
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-600 active" data-dot="1"></button>
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="2"></button>
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="3"></button>
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="4"></button>
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="5"></button>
-      <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="6"></button>
-    </div>
-
-    <!-- Slide Counter -->
-    <div class="mt-4 text-gray-400 text-sm font-bold tracking-widest slide-counter">
-      <span id="currentSlide">1</span> / 6
-    </div>
+ </head>
+ <body class="h-full font-gothic" style="background-color: var(--color-bg); color: var(--color-text);"><!-- Navigation Dots -->
+  <div id="nav-dots" class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-2">
+   <div class="slide-indicator active" data-slide="0"></div>
+   <div class="slide-indicator" data-slide="1"></div>
+   <div class="slide-indicator" data-slide="2"></div>
+   <div class="slide-indicator" data-slide="3"></div>
+   <div class="slide-indicator" data-slide="4"></div>
+   <div class="slide-indicator" data-slide="5"></div>
   </div>
-
+  <div id="feed-container" class="feed-container"><!-- Feed 1: 価値の再定義 -->
+   <section class="feed-slide" data-index="0" style="background: linear-gradient(180deg, var(--color-bg) 0%, #0f0f0f 100%);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 01</p>
+     <p id="feed1-line1" class="text-reveal font-mincho text-xl md:text-2xl leading-relaxed mb-6" style="color: var(--color-muted);">塾は、買う場所ではありません。</p>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed1-line2" class="text-reveal font-mincho text-3xl md:text-4xl font-semibold tracking-wide">教育は、</p>
+     <p id="feed1-line3" class="text-reveal font-mincho text-4xl md:text-5xl font-bold mt-2" style="color: var(--color-accent);">設計です。</p>
+    </div>
+   </section><!-- Feed 2: 認知の転換 -->
+   <section class="feed-slide" data-index="1" style="background-color: var(--color-bg);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 02</p>
+     <div class="text-reveal mb-8"><span class="quote-mark">"</span>
+     </div>
+     <p id="feed2-line1" class="text-reveal font-mincho text-xl md:text-2xl leading-loose" style="color: var(--color-muted);">「近いから」<br>
+       「安いから」<br>
+       「みんな行っているから」</p>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed2-line2" class="text-reveal font-mincho text-2xl md:text-3xl leading-relaxed">その選び方で、<br><span style="color: var(--color-accent);">受験は戦えますか。</span></p>
+    </div>
+   </section><!-- Feed 3: ペルソナの心情に寄り添う -->
+   <section class="feed-slide" data-index="2" style="background: linear-gradient(180deg, #0f0f0f 0%, var(--color-bg) 100%);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 03</p>
+     <p id="feed3-line1" class="text-reveal font-mincho text-xl md:text-2xl mb-6">私たち親世代は、</p>
+     <ul class="text-reveal font-gothic text-base md:text-lg leading-loose mb-6" style="color: var(--color-muted);">
+      <li class="flex items-start gap-3 mb-2"><span style="color: var(--color-accent);">・</span> <span id="feed3-bullet1">受験の情報が少なかった</span></li>
+      <li class="flex items-start gap-3 mb-2"><span style="color: var(--color-accent);">・</span> <span id="feed3-bullet2">戦略を教わっていない</span></li>
+      <li class="flex items-start gap-3"><span style="color: var(--color-accent);">・</span> <span id="feed3-bullet3">なんとなく進学した</span></li>
+     </ul>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed3-line2" class="text-reveal font-mincho text-2xl md:text-3xl leading-relaxed">だからこそ——<br><br>
+       子どもには、<br><span style="color: var(--color-accent);">"なんとなく"</span>を<br>
+       繰り返してほしくない。</p>
+    </div>
+   </section><!-- Feed 4: 徳島という文脈 -->
+   <section class="feed-slide" data-index="3" style="background-color: var(--color-surface);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 04</p>
+     <p id="feed4-line1" class="text-reveal font-mincho text-xl md:text-2xl mb-6">徳島の公立高校入試は、</p>
+     <div class="text-reveal flex justify-center gap-8 my-8">
+      <div class="text-center">
+       <p class="font-mincho text-3xl md:text-4xl font-bold" style="color: var(--color-accent);">10</p>
+       <p class="text-sm mt-1" style="color: var(--color-muted);">月</p>
+      </div>
+      <div class="text-center">
+       <p class="font-mincho text-3xl md:text-4xl font-bold" style="color: var(--color-accent);">11</p>
+       <p class="text-sm mt-1" style="color: var(--color-muted);">月</p>
+      </div>
+      <div class="text-center">
+       <p class="font-mincho text-3xl md:text-4xl font-bold" style="color: var(--color-accent);">1</p>
+       <p class="text-sm mt-1" style="color: var(--color-muted);">月</p>
+      </div>
+     </div>
+     <p id="feed4-line2" class="text-reveal font-mincho text-lg md:text-xl text-center mb-8" style="color: var(--color-muted);">3回の基礎学力テストが軸になります。</p>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed4-line3" class="text-reveal font-mincho text-xl md:text-2xl leading-relaxed">しかし——<br>
+       多くの家庭は<br>
+       その意味を正しく理解していません。</p>
+     <p id="feed4-line4" class="text-reveal font-mincho text-lg md:text-xl mt-6" style="color: var(--color-accent);">情報がないままでは、<br>
+       努力は空回りします。</p>
+    </div>
+   </section><!-- Feed 5: 教育の本質提示 -->
+   <section class="feed-slide" data-index="4" style="background-color: var(--color-bg);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 05</p>
+     <p id="feed5-line1" class="text-reveal font-mincho text-2xl md:text-3xl mb-8">教育は<span style="color: var(--color-accent);">「商品」</span>ではありません。</p>
+     <div class="text-reveal space-y-4 my-8 pl-4" style="border-left: 2px solid var(--color-accent);">
+      <p id="feed5-bullet1" class="font-gothic text-base md:text-lg" style="color: var(--color-muted);">・どこが弱点か</p>
+      <p id="feed5-bullet2" class="font-gothic text-base md:text-lg" style="color: var(--color-muted);">・いつ修正するか</p>
+      <p id="feed5-bullet3" class="font-gothic text-base md:text-lg" style="color: var(--color-muted);">・どの順で積み上げるか</p>
+     </div>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed5-line2" class="text-reveal font-mincho text-xl md:text-2xl leading-relaxed">これは<span style="color: var(--color-accent);">設計図</span>が必要です。</p>
+     <p id="feed5-line3" class="text-reveal font-mincho text-xl md:text-2xl mt-4">設計図なしに<br>
+       成績は上がりません。</p>
+    </div>
+   </section><!-- Feed 6: 静かなCTA -->
+   <section class="feed-slide" data-index="5" style="background: linear-gradient(180deg, var(--color-bg) 0%, #0a0808 100%);">
+    <div class="max-w-lg mx-auto w-full">
+     <p class="text-reveal text-sm tracking-widest mb-8" style="color: var(--color-muted);">FEED 06</p>
+     <p id="feed6-line1" class="text-reveal font-mincho text-xl md:text-2xl mb-4">知らなかった、で終わらせない。</p>
+     <p id="feed6-line2" class="text-reveal font-mincho text-lg md:text-xl mb-8" style="color: var(--color-muted);">今の答案から<br>
+       戦い方を明確にする。</p>
+     <div class="text-reveal cta-box rounded-lg p-6 md:p-8 my-8">
+      <p id="cta-title" class="font-mincho text-lg md:text-xl mb-4" style="color: var(--color-accent);">【中学生 保護者会】</p>
+      <div class="space-y-2 font-gothic text-sm md:text-base">
+       <p id="cta-date">📅 <span class="cta-date-value">2月14日／15日</span></p>
+       <p id="cta-time">🕐 <span class="cta-time-value">13:00–14:00</span></p>
+       <p id="cta-location">📍 <span class="cta-location-value">ECCベストワン藍住</span></p>
+       <p id="cta-capacity" style="color: var(--color-accent);"><span class="cta-capacity-value">定員10名（予約制）</span></p>
+      </div>
+     </div>
+     <div class="text-reveal em-dash"></div>
+     <p id="feed6-question" class="text-reveal font-mincho text-xl md:text-2xl" style="color: var(--color-muted);">「うちの子、大丈夫かな」</p>
+     <p id="feed6-answer" class="text-reveal font-mincho text-2xl md:text-3xl mt-4">その問いに、<br><span style="color: var(--color-accent);">具体的に</span>答えます。</p>
+    </div>
+   </section>
+  </div>
   <script>
     const defaultConfig = {
-      main_title: '自分のときは、誰も教えてくれなかった',
-      school_name: 'ECCベストワン藍住',
-      phone_number: '088-692-5483'
+      background_color: '#0a0a0a',
+      surface_color: '#1a1a1a',
+      text_color: '#f5f5f5',
+      accent_color: '#c9a227',
+      muted_color: '#737373',
+      font_family: 'Shippori Mincho',
+      font_size: 16,
+      cta_date: '2月14日／15日',
+      cta_time: '13:00–14:00',
+      cta_location: 'ECCベストワン藍住',
+      cta_capacity: '定員10名（予約制）'
     };
-
-    let currentSlide = 1;
-    const totalSlides = 6;
-
-    function showSlide(n) {
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.querySelectorAll('[data-dot]');
-
-      slides.forEach(slide => slide.classList.add('hidden'));
-      dots.forEach(dot => {
-        dot.classList.remove('bg-gray-600', 'active');
-        dot.classList.add('bg-gray-300');
-      });
-
-      const targetSlide = document.querySelector(`[data-slide="${n}"]`);
-      const targetDot = document.querySelector(`[data-dot="${n}"]`);
-
-      if (targetSlide) targetSlide.classList.remove('hidden');
-      if (targetDot) {
-        targetDot.classList.remove('bg-gray-300');
-        targetDot.classList.add('bg-gray-600', 'active');
-      }
-
-      document.getElementById('currentSlide').textContent = n;
-    }
-
-    function nextSlide() {
-      currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
-      showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-      currentSlide = currentSlide <= 1 ? totalSlides : currentSlide - 1;
-      showSlide(currentSlide);
-    }
-
-    // Dot Navigation
-    document.querySelectorAll('[data-dot]').forEach(dot => {
-      dot.addEventListener('click', (e) => {
-        currentSlide = parseInt(e.target.dataset.dot);
-        showSlide(currentSlide);
-      });
-    });
-
-    // Swipe Support
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const container = document.getElementById('slideContainer');
-
-    container.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    container.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) nextSlide();
-      else if (touchEndX - touchStartX > 50) prevSlide();
-    }, { passive: true });
-
-    // Element SDK
+    
     async function onConfigChange(config) {
-      // Implementation for SDK updates if needed
+      const root = document.documentElement;
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const mutedColor = config.muted_color || defaultConfig.muted_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      
+      root.style.setProperty('--color-bg', bgColor);
+      root.style.setProperty('--color-surface', surfaceColor);
+      root.style.setProperty('--color-text', textColor);
+      root.style.setProperty('--color-accent', accentColor);
+      root.style.setProperty('--color-muted', mutedColor);
+      
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.color = textColor;
+      
+      // Apply font
+      const baseFontStack = 'Zen Kaku Gothic New, sans-serif';
+      document.querySelectorAll('.font-mincho').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, serif`;
+      });
+      
+      // Apply font size scaling
+      const baseSize = fontSize;
+      document.querySelectorAll('.feed-slide p, .feed-slide li').forEach(el => {
+        const currentSize = window.getComputedStyle(el).fontSize;
+        const currentSizeNum = parseFloat(currentSize);
+        const scaleFactor = baseSize / 16;
+        // Scale relative to default
+      });
+      
+      // Update CTA content
+      const ctaDate = config.cta_date || defaultConfig.cta_date;
+      const ctaTime = config.cta_time || defaultConfig.cta_time;
+      const ctaLocation = config.cta_location || defaultConfig.cta_location;
+      const ctaCapacity = config.cta_capacity || defaultConfig.cta_capacity;
+      
+      document.querySelector('.cta-date-value').textContent = ctaDate;
+      document.querySelector('.cta-time-value').textContent = ctaTime;
+      document.querySelector('.cta-location-value').textContent = ctaLocation;
+      document.querySelector('.cta-capacity-value').textContent = ctaCapacity;
+      
+      // Update accent colored elements
+      document.querySelectorAll('[style*="color: var(--color-accent)"]').forEach(el => {
+        el.style.color = accentColor;
+      });
+      
+      // Update muted colored elements
+      document.querySelectorAll('[style*="color: var(--color-muted)"]').forEach(el => {
+        el.style.color = mutedColor;
+      });
+      
+      // Update surfaces
+      document.querySelectorAll('.feed-slide[data-index="3"]').forEach(el => {
+        el.style.backgroundColor = surfaceColor;
+      });
     }
-    function mapToCapabilities(config) { return {}; }
-    function mapToEditPanelValues(config) { return new Map(); }
-    if (window.elementSdk) {
-      window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
-    }
-
-    // Recording Logic
-    document.getElementById('recordBtn').addEventListener('click', async () => {
-      try {
-        const stream = await navigator.mediaDevices.getDisplayMedia({
-          video: { displaySurface: "browser" },
-          audio: false
-        });
-
-        const mimeType = MediaRecorder.isTypeSupported("video/mp4") ? "video/mp4" : "video/webm";
-        const recorder = new MediaRecorder(stream, { mimeType });
-        const chunks = [];
-
-        recorder.ondataavailable = e => chunks.push(e.data);
-        recorder.onstop = () => {
-          document.body.classList.remove('is-recording');
-          const blob = new Blob(chunks, { type: mimeType });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `instagram_slides_emotion_${Date.now()}.${mimeType === "video/mp4" ? "mp4" : "webm"}`;
-          a.click();
-          stream.getTracks().forEach(t => t.stop());
-        };
-
-        recorder.start();
-        document.body.classList.add('is-recording');
-        currentSlide = 1;
-        showSlide(1);
-
-        let step = 1;
-        const interval = setInterval(() => {
-          if (step >= totalSlides) {
-            clearInterval(interval);
-            setTimeout(() => recorder.stop(), 3000);
-          } else {
-            nextSlide();
-            step++;
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { 
+              config.background_color = value; 
+              window.elementSdk.setConfig({ background_color: value }); 
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => { 
+              config.surface_color = value; 
+              window.elementSdk.setConfig({ surface_color: value }); 
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { 
+              config.text_color = value; 
+              window.elementSdk.setConfig({ text_color: value }); 
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => { 
+              config.accent_color = value; 
+              window.elementSdk.setConfig({ accent_color: value }); 
+            }
+          },
+          {
+            get: () => config.muted_color || defaultConfig.muted_color,
+            set: (value) => { 
+              config.muted_color = value; 
+              window.elementSdk.setConfig({ muted_color: value }); 
+            }
           }
-        }, 4000);
-
-      } catch (err) {
-        console.error("Recording error:", err);
-        alert("録画を開始できませんでした。");
-      }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => { 
+            config.font_family = value; 
+            window.elementSdk.setConfig({ font_family: value }); 
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => { 
+            config.font_size = value; 
+            window.elementSdk.setConfig({ font_size: value }); 
+          }
+        }
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['cta_date', config.cta_date || defaultConfig.cta_date],
+        ['cta_time', config.cta_time || defaultConfig.cta_time],
+        ['cta_location', config.cta_location || defaultConfig.cta_location],
+        ['cta_capacity', config.cta_capacity || defaultConfig.cta_capacity]
+      ]);
+    }
+    
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Scroll tracking for navigation dots
+    const feedContainer = document.getElementById('feed-container');
+    const indicators = document.querySelectorAll('.slide-indicator');
+    
+    feedContainer.addEventListener('scroll', () => {
+      const scrollTop = feedContainer.scrollTop;
+      const slideHeight = feedContainer.clientHeight;
+      const currentSlide = Math.round(scrollTop / slideHeight);
+      
+      indicators.forEach((indicator, index) => {
+        if (index === currentSlide) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+      
+      // Trigger animations for visible slide
+      const slides = document.querySelectorAll('.feed-slide');
+      slides.forEach((slide, index) => {
+        if (index === currentSlide) {
+          const elements = slide.querySelectorAll('.text-reveal');
+          elements.forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight; // Trigger reflow
+            el.style.animation = '';
+          });
+        }
+      });
     });
-
-    // Initial Render
-    showSlide(1);
+    
+    // Click on indicator to navigate
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        const slideHeight = feedContainer.clientHeight;
+        feedContainer.scrollTo({
+          top: slideHeight * index,
+          behavior: 'smooth'
+        });
+      });
+    });
   </script>
-</body>
-
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd23c0d3486836d',t:'MTc3MDk2Mzc4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
