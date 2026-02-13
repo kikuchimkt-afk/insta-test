@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ja" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Carousel - CV特化型案7</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .slide-container {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            max-width: 540px;
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+        }
+
+        .apple-shadow {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .bg-apple-gray {
+            background-color: #f5f5f7;
+        }
+
+        .text-apple-red {
+            color: #e63946;
+        }
+
+        .btn-apple {
+            background-color: #000000;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .btn-apple:hover {
+            background-color: #333333;
+        }
+
+        .slide-nav-btn {
+            transition: all 0.2s ease;
+        }
+
+        .slide-nav-btn.active {
+            transform: scale(1.2);
+            background-color: #000000;
+        }
+
+        .check-list-item::before {
+            content: "✔";
+            color: #e63946;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full overflow-auto flex flex-col items-center justify-start p-4 bg-gray-50">
+    <div class="min-h-full w-full flex flex-col items-center justify-start">
+
+        <!-- Slide Container -->
+        <div class="slide-container relative overflow-hidden apple-shadow rounded-2xl" id="slideContainer">
+
+            <!-- Slide 1: Hook -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center"
+                data-slide="1">
+                <div class="space-y-8 fade-in">
+                    <p class="text-sm font-bold tracking-[0.2em] text-gray-400">STRATEGY</p>
+                    <h2 class="text-3xl md:text-4xl font-black leading-tight">
+                        その塾選び、<br>
+                        本当に<span class="text-apple-red">戦略</span>ですか。
+                    </h2>
+                    <div class="space-y-2 py-6">
+                        <p class="text-lg font-bold">2月12日 基礎学力テスト</p>
+                        <p class="text-gray-500">結果が出た今、<br>
+                            動く家庭と、動かない家庭に分かれます。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Check List -->
+            <div class="slide absolute inset-0 flex flex-col justify-center p-10 hidden" data-slide="2">
+                <div class="space-y-8 fade-in text-center">
+                    <h3 class="text-2xl font-black">こんな状態では<br>ありませんか？</h3>
+                    <div class="text-left space-y-4 max-w-xs mx-auto">
+                        <p class="check-list-item font-medium">点数は悪くないが、伸びる根拠がない</p>
+                        <p class="check-list-item font-medium">ケアレスミスが減らない</p>
+                        <p class="check-list-item font-medium">何を優先すべきか分からない</p>
+                        <p class="check-list-item font-medium">情報はあるが、判断軸がない</p>
+                    </div>
+                    <p class="text-xl font-bold pt-4 border-t border-gray-100">
+                        受験は「努力量」ではなく<br>
+                        <span class="text-apple-red">設計力</span>で差がつきます。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Structure -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-10 text-center hidden"
+                data-slide="3">
+                <div class="space-y-8 fade-in">
+                    <h3 class="text-xl font-bold">徳島県公立入試は、</h3>
+                    <div class="flex justify-center gap-4">
+                        <div class="w-20 h-20 rounded-xl bg-apple-gray flex flex-col items-center justify-center">
+                            <span class="text-2xl font-black">10</span><span class="text-xs">月</span>
+                        </div>
+                        <div class="w-20 h-20 rounded-xl bg-apple-gray flex flex-col items-center justify-center">
+                            <span class="text-2xl font-black">11</span><span class="text-xs">月</span>
+                        </div>
+                        <div class="w-20 h-20 rounded-xl bg-black text-white flex flex-col items-center justify-center">
+                            <span class="text-2xl font-black">1</span><span class="text-xs">月</span>
+                        </div>
+                    </div>
+                    <p class="text-xl font-bold leading-relaxed">
+                        3回の基礎学力テストが<br>
+                        <span class="text-apple-red">合否を左右します。</span>
+                    </p>
+                    <div class="bg-apple-gray p-4 rounded-lg">
+                        <p class="text-sm text-gray-600">
+                            しかし多くの家庭は、<br>
+                            <span class="font-bold text-black">夏までの動き方を知らない。</span>
+                        </p>
+                        <p class="text-sm font-bold mt-2">ここで差が固定します。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Solution -->
+            <div class="slide absolute inset-0 flex flex-col justify-center p-10 hidden" data-slide="4">
+                <div class="space-y-6 fade-in">
+                    <h3 class="text-2xl font-black text-center mb-4">今回の保護者会では：</h3>
+                    <div class="space-y-3">
+                        <div class="bg-apple-gray p-3 rounded-lg flex items-center gap-3">
+                            <span class="text-apple-red font-black">01</span>
+                            <p class="text-sm font-bold">2/12基礎学テストの出題分析</p>
+                        </div>
+                        <div class="bg-apple-gray p-3 rounded-lg flex items-center gap-3">
+                            <span class="text-apple-red font-black">02</span>
+                            <p class="text-sm font-bold">実際の答案から見る失点パターン</p>
+                        </div>
+                        <div class="bg-apple-gray p-3 rounded-lg flex items-center gap-3">
+                            <span class="text-apple-red font-black">03</span>
+                            <p class="text-sm font-bold">夏までにやるべき具体策</p>
+                        </div>
+                        <div class="bg-apple-gray p-3 rounded-lg flex items-center gap-3">
+                            <span class="text-apple-red font-black">04</span>
+                            <p class="text-sm font-bold">中3基礎学テスト逆算スケジュール</p>
+                        </div>
+                    </div>
+                    <p class="text-center font-bold mt-4">
+                        「不安」ではなく<br>
+                        <span class="text-2xl text-apple-red">行動計画</span>を持ち帰っていただきます。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 5: Target -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-10 text-center hidden"
+                data-slide="5">
+                <div class="space-y-8 fade-in">
+                    <h3 class="text-xl font-bold">新中2・新中3の保護者さまへ。</h3>
+                    <div class="text-left space-y-3 inline-block">
+                        <p class="check-list-item text-sm">自分は受験に詳しくない</p>
+                        <p class="check-list-item text-sm">子どもには良い高校へ進んでほしい</p>
+                        <p class="check-list-item text-sm">でも何から始めるべきか分からない</p>
+                    </div>
+                    <div class="border-2 border-apple-red p-6 rounded-2xl relative">
+                        <p class="text-sm font-bold mb-2">その状態のまま中3になると、</p>
+                        <p class="text-lg font-black text-apple-red">修正の時間はほぼありません。</p>
+                        <p class="text-2xl font-black mt-4">今なら、間に合います。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: CTA -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-8 text-center hidden"
+                data-slide="6">
+                <div class="space-y-6 fade-in w-full">
+                    <div
+                        class="inline-block bg-apple-red text-white px-4 py-1 rounded-full text-xs font-black animate-pulse">
+                        🔥 残席わずか</div>
+                    <h3 class="text-2xl font-black">中学生 保護者会</h3>
+                    <p class="text-xs text-gray-500 -mt-4">（少人数制）</p>
+
+                    <div class="bg-apple-gray rounded-2xl p-6 text-left space-y-3 w-full">
+                        <div class="flex items-center gap-4">
+                            <span class="text-xl">📅</span>
+                            <div class="text-sm font-bold">
+                                <p>2月14日（金）</p>
+                                <p>2月15日（土）</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xl">⏰</span>
+                            <p class="text-sm font-bold">13:00 – 14:00</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xl">📍</span>
+                            <p class="text-sm font-bold">ECCベストワン藍住</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xl">👥</span>
+                            <p class="text-sm font-black text-apple-red">限定10名（先着順）</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 w-full">
+                        <div class="bg-black text-white py-3 rounded-xl font-bold text-center">
+                            📞 088-692-5483
+                        </div>
+                        <div class="bg-white border-2 border-black py-3 rounded-xl font-bold text-center">
+                            📝 プロフィールリンクから申込
+                        </div>
+                    </div>
+                    <p class="text-xs font-bold text-gray-400">迷っている間に、差は広がります。</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="flex gap-2 mt-6" id="dots">
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300 active" data-dot="1"></button>
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300" data-dot="2"></button>
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300" data-dot="3"></button>
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300" data-dot="4"></button>
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300" data-dot="5"></button>
+            <button class="slide-nav-btn w-2 h-2 rounded-full bg-gray-300" data-dot="6"></button>
+        </div>
+
+        <!-- Slide Counter -->
+        <div class="mt-2 text-gray-400 text-xs font-bold tracking-widest">
+            <span id="currentSlideDisplay">1</span> / 6
+        </div>
+    </div>
+
+    <script>
+        const defaultConfig = {
+            school_name: 'ECCベストワン藍住',
+            phone_number: '088-692-5483'
+        };
+
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('[data-dot]');
+
+            slides.forEach(slide => slide.classList.add('hidden'));
+            dots.forEach(dot => {
+                dot.classList.remove('bg-black', 'active');
+                dot.classList.add('bg-gray-300');
+            });
+
+            const targetSlide = document.querySelector(`[data-slide="${n}"]`);
+            const targetDot = document.querySelector(`[data-dot="${n}"]`);
+
+            if (targetSlide) targetSlide.classList.remove('hidden');
+            if (targetDot) {
+                targetDot.classList.remove('bg-gray-300');
+                targetDot.classList.add('bg-black', 'active');
+            }
+
+            document.getElementById('currentSlideDisplay').textContent = n;
+        }
+
+        function nextSlide() {
+            currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = currentSlide <= 1 ? totalSlides : currentSlide - 1;
+            showSlide(currentSlide);
+        }
+
+        document.querySelectorAll('[data-dot]').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                currentSlide = parseInt(e.target.dataset.dot);
+                showSlide(currentSlide);
+            });
+        });
+
+        // Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const container = document.getElementById('slideContainer');
+
+        container.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) nextSlide();
+            else if (touchEndX - touchStartX > 50) prevSlide();
+        }, { passive: true });
+
+        // Initial render
+        showSlide(1);
+
+        // Element SDK Integration
+        async function onConfigChange(config) {
+            // Re-render if needed
+        }
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: () => ({ recolorables: [], borderables: [] }),
+                mapToEditPanelValues: (config) => new Map([['school_name', config.school_name || defaultConfig.school_name]])
+            });
+        }
+    </script>
+</body>
+
+</html>
