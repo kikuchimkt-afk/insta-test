@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ja" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Feed Carousel - Strategy Simple</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Yomogi&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #fdfcf8;
+            /* Warm paper */
+            color: #4a4a4a;
+        }
+
+        .yomogi {
+            font-family: 'Yomogi', cursive;
+        }
+
+        .slide-container {
+            aspect-ratio: 4 / 5;
+            /* Instagram Portrait */
+            width: 100%;
+            max-width: 540px;
+            /* Max display width */
+            background: #fdfcf8;
+        }
+
+        /* Typography & Design */
+        .text-hand {
+            font-family: 'Yomogi', cursive;
+            line-height: 1.6;
+        }
+
+        .highlight-marker {
+            background: linear-gradient(transparent 60%, rgba(255, 159, 67, 0.3) 60%);
+            padding: 0 4px;
+        }
+
+        .highlight-marker-blue {
+            background: linear-gradient(transparent 60%, rgba(84, 160, 255, 0.3) 60%);
+            padding: 0 4px;
+        }
+
+        .circle-date {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navigation */
+        .slide-nav-btn {
+            transition: all 0.2s ease;
+        }
+
+        .slide-nav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .slide-nav-btn.active {
+            transform: scale(1.2);
+            background-color: #4a4a4a;
+        }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full overflow-auto">
+    <div class="min-h-full w-full flex flex-col items-center justify-start p-4 pb-8">
+
+        <!-- Slide Container -->
+        <div class="slide-container relative overflow-hidden shadow-xl rounded-sm border border-gray-100"
+            id="slideContainer">
+
+            <!-- Slide 1: Main Copy (Education is Design) -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center"
+                data-slide="1">
+                <div class="space-y-12">
+                    <p class="text-2xl font-bold leading-loose text-gray-700">
+                        塾は、<br>買う場所ではありません。
+                    </p>
+                    <div class="w-12 h-1 bg-gray-300 mx-auto rounded-full"></div>
+                    <div class="space-y-6">
+                        <p class="text-3xl font-black text-gray-800 leading-normal">
+                            教育は、<br>
+                            <span class="highlight-marker-blue">設計です。</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Cognitive Shift (Can you fight?) -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
+                data-slide="2">
+                <div class="space-y-8">
+                    <div class="space-y-4 text-gray-500 font-medium text-lg">
+                        <p>「近いから」</p>
+                        <p>「安いから」</p>
+                        <p>「みんな行っているから」</p>
+                    </div>
+
+                    <div
+                        class="w-8 h-8 rounded-full bg-gray-200 mx-auto flex items-center justify-center text-gray-400">
+                        ↓</div>
+
+                    <h2 class="text-3xl font-bold leading-normal text-gray-800">
+                        その選び方で…<br>
+                        <span class="highlight-marker">受験は戦えますか？</span>
+                    </h2>
+
+                    <p class="text-gray-600 mt-4 leading-relaxed">
+                        安易な選択が、<br>結果を左右します。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Parent Feelings (Strategy) -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
+                data-slide="3">
+                <div class="space-y-10">
+                    <div class="text-left space-y-4 inline-block">
+                        <p class="text-lg text-gray-600 border-b border-gray-200 pb-2">私たちは、情報が少なかった</p>
+                        <p class="text-lg text-gray-600 border-b border-gray-200 pb-2">私たちは、戦略を教わらなかった</p>
+                        <p class="text-lg text-gray-600">私たちは、なんとなく進学した</p>
+                    </div>
+
+                    <div class="bg-teal-50 p-8 rounded-xl w-full">
+                        <h2 class="text-2xl font-bold leading-relaxed text-teal-800">
+                            子どもには<br>
+                            <span class="highlight-marker">「なんとなく」</span>を<br>
+                            繰り返してほしくない。
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: The 3 Critical Tests (Local Context) -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-8 text-center hidden"
+                data-slide="4">
+                <h3 class="text-xl text-gray-500 font-bold mb-8">徳島の公立高校入試は、</h3>
+
+                <div class="flex justify-center gap-6 mb-10 w-full">
+                    <div class="circle-date">
+                        <span class="text-4xl font-black font-sans">10</span>
+                        <span class="text-sm font-bold">月</span>
+                    </div>
+                    <div class="circle-date">
+                        <span class="text-4xl font-black font-sans">11</span>
+                        <span class="text-sm font-bold">月</span>
+                    </div>
+                    <div class="circle-date border-teal-500 text-teal-600 bg-teal-50">
+                        <span class="text-4xl font-black font-sans">1</span>
+                        <span class="text-sm font-bold">月</span>
+                    </div>
+                </div>
+
+                <p class="text-xl font-bold text-gray-800 mb-8 leading-relaxed">
+                    3回の基礎学力テストが<br>
+                    <span class="highlight-marker">合否の軸になります。</span>
+                </p>
+
+                <p class="text-lg font-bold text-gray-600">
+                    情報がないままでは、<br>
+                    努力は空回りします。
+                </p>
+            </div>
+
+            <!-- Slide 5: Essence (Blueprint) -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-12 text-center hidden"
+                data-slide="5">
+                <div class="space-y-10">
+                    <div class="space-y-4">
+                        <span
+                            class="inline-block bg-teal-100 text-teal-800 px-4 py-1 rounded-full text-sm font-bold">教育は「商品」ではない</span>
+                        <h2 class="text-3xl font-bold leading-relaxed text-gray-800">
+                            どこが弱点か。<br>
+                            いつ修正するか。<br>
+                            どう積み上げるか。
+                        </h2>
+                    </div>
+
+                    <div class="w-12 h-1 bg-gray-300 mx-auto rounded-full"></div>
+
+                    <div class="space-y-4">
+                        <p class="text-xl font-medium text-gray-600">
+                            これらをまとめた
+                        </p>
+                        <p class="text-3xl font-black text-teal-600">
+                            「設計図」
+                        </p>
+                        <p class="text-xl font-medium text-gray-600">
+                            はお持ちですか？
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Event Info & CTA -->
+            <div class="slide absolute inset-0 flex flex-col justify-center items-center p-8 text-center hidden"
+                data-slide="6">
+                <div class="border-2 border-gray-800 px-8 py-2 rounded-full mb-10">
+                    <p class="text-lg font-bold tracking-widest text-gray-800">中学生 保護者会</p>
+                </div>
+
+                <div class="space-y-6 mb-10 w-full">
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold mb-1">開催日時 (各回 約1時間)</p>
+                        <p class="text-2xl font-black text-gray-800">2月21日(土) <span
+                                class="text-base font-normal">13:00~</span></p>
+                        <p class="text-2xl font-black text-gray-800">2月22日(日) <span class="text-base font-normal">13:00~
+                                /
+                                19:00~</span></p>
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold mb-1">場所</p>
+                        <p class="yomogi text-sm font-bold text-teal-600 mb-1">「基礎学に一番強い<span
+                                style="font-family: 'Zen Maru Gothic', sans-serif;">塾</span>」</p>
+                        <p class="text-xl font-bold text-gray-800">ECCベストワン藍住</p>
+                    </div>
+                </div>
+
+                <div class="bg-teal-50 px-6 py-3 rounded-lg border border-teal-100 mb-6 inline-block">
+                    <p class="text-lg text-teal-800 font-bold">限定 <span class="text-3xl">10</span> 名 <span
+                            class="text-sm font-normal">（先着順）</span></p>
+                </div>
+
+                <div class="space-y-2 mb-2 w-full px-4">
+                    <a href="tel:0886925483"
+                        class="block w-full bg-gray-800 text-white py-3 rounded-full font-bold shadow-md hover:bg-gray-700 transition">
+                        📞 電話で予約 (088-692-5483)
+                    </a>
+                    <a href="https://forms.gle/n6GRdVbe7jisfEBS8" target="_blank"
+                        class="block w-full bg-teal-500 text-white py-3 rounded-full font-bold shadow-md hover:bg-teal-600 transition">
+                        📝 Webフォームから予約
+                    </a>
+                </div>
+
+                <div class="mt-2">
+                    <a href="https://202602-parents-meeting-bestone.vercel.app/" target="_blank"
+                        class="inline-block text-gray-500 underline text-xs">
+                        詳しい案内ページはこちら
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="flex gap-3 mt-8" id="dots">
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-600 active" data-dot="1"></button>
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="2"></button>
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="3"></button>
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="4"></button>
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="5"></button>
+            <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="6"></button>
+        </div>
+
+        <!-- Slide Counter -->
+        <div class="mt-4 text-gray-400 text-sm font-bold tracking-widest slide-counter">
+            <span id="currentSlide">1</span> / 6
+        </div>
+    </div>
+
+    <script>
+        const defaultConfig = {
+            main_title: '教育は、設計です。',
+            school_name: 'ECCベストワン藍住',
+            phone_number: '088-692-5483'
+        };
+
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('[data-dot]');
+
+            slides.forEach(slide => slide.classList.add('hidden'));
+            dots.forEach(dot => {
+                dot.classList.remove('bg-gray-600', 'active');
+                dot.classList.add('bg-gray-300');
+            });
+
+            const targetSlide = document.querySelector(`[data-slide="${n}"]`);
+            const targetDot = document.querySelector(`[data-dot="${n}"]`);
+
+            if (targetSlide) targetSlide.classList.remove('hidden');
+            if (targetDot) {
+                targetDot.classList.remove('bg-gray-300');
+                targetDot.classList.add('bg-gray-600', 'active');
+            }
+
+            document.getElementById('currentSlide').textContent = n;
+        }
+
+        function nextSlide() {
+            currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = currentSlide <= 1 ? totalSlides : currentSlide - 1;
+            showSlide(currentSlide);
+        }
+
+        document.getElementById('slideContainer').addEventListener('click', (e) => {
+            // Optional: click to advance for testing, but let's stick to buttons/swipe
+        });
+
+        document.querySelectorAll('[data-dot]').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                currentSlide = parseInt(e.target.dataset.dot);
+                showSlide(currentSlide);
+            });
+        });
+
+        // Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const container = document.getElementById('slideContainer');
+
+        container.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        }, { passive: true });
+
+        // Element SDK Integration
+        async function onConfigChange(config) {
+            const mainTitle = config.main_title || defaultConfig.main_title;
+            const schoolName = config.school_name || defaultConfig.school_name;
+            const phoneNumber = config.phone_number || defaultConfig.phone_number;
+
+            const schoolNameEl = document.querySelector('.school-name');
+            if (schoolNameEl) schoolNameEl.textContent = schoolName;
+
+            const phoneNumberEl = document.querySelector('.phone-number');
+            if (phoneNumberEl) phoneNumberEl.textContent = phoneNumber;
+        }
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ['main_title', config.main_title || defaultConfig.main_title],
+                ['school_name', config.school_name || defaultConfig.school_name],
+                ['phone_number', config.phone_number || defaultConfig.phone_number]
+            ]);
+        }
+
+        // Initialize SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        showSlide(1);
+    </script>
+</body>
+
+</html>

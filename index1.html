@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ja" class="h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中学生保護者会 Instagram投稿</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Yomogi&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background-color: #fdfcf8;
+      /* Warm paper */
+    }
+
+    .yomogi {
+      font-family: 'Yomogi', cursive;
+    }
+
+    .slide-container {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      max-width: 540px;
+      /* Instagram Square */
+    }
+
+    /* Hand-made Design System */
+    .hand-made-card {
+      background: #ffffff;
+      border: 3px solid #4a4a4a;
+      /* Pencil gray border */
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      /* Organic shape */
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05);
+      /* Soft shadow */
+    }
+
+    .dot-grid-bg {
+      background-color: #fdfcf8;
+      background-image:
+        radial-gradient(#e6e6e6 1px, transparent 1px),
+        radial-gradient(#e6e6e6 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+    }
+
+    /* Colors from Presentation */
+    .text-primary {
+      color: #4a4a4a;
+    }
+
+    .text-secondary {
+      color: #707070;
+    }
+
+    .accent-orange {
+      color: #ff9f43;
+    }
+
+    .accent-blue {
+      color: #54a0ff;
+    }
+
+    .bg-accent-blue {
+      background-color: #54a0ff;
+    }
+
+    .bg-accent-orange {
+      background-color: #e17055;
+    }
+
+    .bg-teal {
+      background-color: #00cec9;
+    }
+
+    /* Post-it Note */
+    .post-it {
+      background: #fff9c4;
+      /* Post-it Yellow */
+      color: #4a4a4a;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transform: rotate(1deg);
+      border: none;
+      position: relative;
+    }
+
+    .post-it::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 60px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .post-it.blue {
+      background: #74b9ff;
+      color: white;
+      transform: rotate(-1deg);
+    }
+
+    .post-it.orange {
+      background: #fab1a0;
+      transform: rotate(2deg);
+    }
+
+    /* Highlights */
+    .highlight-wavy {
+      text-decoration: underline wavy #e55039;
+      text-decoration-thickness: 2px;
+      font-weight: 700;
+    }
+
+    .marker-highlight {
+      background: linear-gradient(transparent 70%, rgba(255, 159, 67, 0.3) 70%);
+      padding: 0 5px;
+    }
+
+    .slide-nav-btn {
+      transition: all 0.2s ease;
+    }
+
+    .slide-nav-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .slide-nav-btn.active {
+      transform: scale(1.2);
+      background-color: #4a4a4a;
+      /* Active dot color */
+    }
+
+    /* Recording Mode Styles */
+    body.is-recording .slide-nav-btn,
+    body.is-recording .slide-counter,
+    body.is-recording #recordBtn {
+      display: none !important;
+    }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full dot-grid-bg overflow-auto">
+  <div class="min-h-full w-full flex flex-col items-center justify-start p-4 pb-8">
+    <!-- Slide Container -->
+    <div class="slide-container relative overflow-hidden" id="slideContainer">
+
+      <!-- Slide 1: Main Copy -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col items-center justify-center p-8 text-primary"
+        data-slide="1">
+        <div
+          class="absolute top-6 right-6 bg-accent-blue text-white px-4 py-1 rounded-full text-sm font-bold yomogi rotate-2 shadow-sm">
+          保護者会開催
+        </div>
+        <div class="text-center space-y-8">
+          <div class="space-y-4">
+            <p class="yomogi text-xl text-secondary">新中2・新中3対象</p>
+            <h1 class="yomogi text-5xl leading-tight text-primary rotate-[-2deg]"
+              style="text-shadow: 2px 2px 0px rgba(0,0,0,0.1);">
+              中3受験は、<br>もう始まって<br>います。
+            </h1>
+          </div>
+          <div class="space-y-4">
+            <p class="text-lg">動くなら、</p>
+            <div class="post-it p-4 inline-block transform rotate-1">
+              <p class="yomogi text-2xl font-bold">「基礎学力テストが終わった今」<br>です。</p>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <p class="yomogi text-lg font-bold text-teal-600">「基礎学に一番強い<span
+                style="font-family: 'Zen Maru Gothic', sans-serif;">塾</span>」</p>
+            <p class="yomogi text-2xl font-bold text-primary">ECCベストワン藍住</p>
+          </div>
+
+          <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+            <div class="text-sm text-secondary yomogi animate-bounce">
+              ← スワイプして詳細を見る →
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Problem/Needs -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col p-8 hidden text-primary" data-slide="2">
+        <div
+          class="bg-accent-blue text-white text-center py-2 px-6 rounded-full -mt-2 mb-6 self-center rotate-[-1deg] shadow-sm">
+          <p class="yomogi text-lg">基礎学力テストの結果を見て…</p>
+        </div>
+        <h2 class="yomogi text-3xl text-center mb-8 marker-highlight self-center">こんな不安はありませんか？</h2>
+
+        <div class="space-y-4 flex-1 px-2">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl pt-1">😥</span>
+            <p class="text-lg leading-relaxed border-b-2 border-dashed border-gray-300 pb-2 w-full">
+              点数はそこそこなのに、<br><span class="highlight-wavy">伸びていくイメージが持てない</span>
+            </p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-2xl pt-1">😟</span>
+            <p class="text-lg leading-relaxed border-b-2 border-dashed border-gray-300 pb-2 w-full">
+              ケアレスミスが多く、<br><span class="highlight-wavy">「もったいない答案」ばかり</span>
+            </p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-2xl pt-1">😰</span>
+            <p class="text-lg leading-relaxed border-b-2 border-dashed border-gray-300 pb-2 w-full">
+              このまま中3になって、<br><span class="highlight-wavy">受験を戦い抜けるか心配</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="post-it orange p-4 mt-2 text-center text-gray-800">
+          <p class="yomogi text-lg font-bold leading-relaxed">
+            同じ点数でも、「伸びる答案」と<br>「止まる答案」があります。
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3: Content Overview -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col p-8 hidden text-primary" data-slide="3">
+        <div class="text-center mb-6">
+          <span
+            class="inline-block bg-teal text-white text-lg font-bold px-6 py-2 rounded-full yomogi shadow-sm rotate-1">保護者会の内容</span>
+        </div>
+
+        <div class="space-y-5 flex-1 px-1">
+          <div class="relative pl-6">
+            <div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-accent-blue"></div>
+            <h3 class="font-bold text-xl mb-1 yomogi text-accent-blue">分析</h3>
+            <p class="text-base">「基礎学力テスト」の出題傾向を徹底解剖</p>
+          </div>
+          <div class="relative pl-6">
+            <div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-teal"></div>
+            <h3 class="font-bold text-xl mb-1 yomogi text-teal-600">実例</h3>
+            <p class="text-base">実際の答案から見る「合否を分ける考え方」</p>
+          </div>
+          <div class="relative pl-6">
+            <div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-accent-orange"></div>
+            <h3 class="font-bold text-xl mb-1 yomogi text-orange-500">準備</h3>
+            <p class="text-base">10月以降のテストに向けて夏までにやるべきこと</p>
+          </div>
+        </div>
+
+        <div class="post-it blue p-4 mt-4 text-center">
+          <p class="yomogi text-xl font-bold leading-relaxed">
+            「なんとなく不安」を<br>「これをやればいい」に変える<br>1時間です。
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4: For 3rd Year Parents -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col p-8 hidden text-primary" data-slide="4">
+        <div class="text-center mb-6">
+          <span
+            class="inline-block bg-accent-orange text-white text-lg font-bold px-6 py-2 rounded-full yomogi shadow-sm rotate-[-1deg] border-2 border-white ring-2 ring-orange-200">🎯
+            新中学3年 保護者さまへ</span>
+        </div>
+
+        <div class="space-y-4 flex-1">
+          <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-100 rotate-1">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">📊</span>
+              <p class="text-base leading-relaxed">今のうちに<span class="font-bold text-orange-600">「埋めるべき穴」</span>と<span
+                  class="font-bold text-orange-600">「伸ばせる強み」</span>を明確化</p>
+            </div>
+          </div>
+          <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-100 rotate-[-1deg]">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">📅</span>
+              <p class="text-base leading-relaxed">10月・11月・1月のテストで<span
+                  class="font-bold text-orange-600">"勝てる子"のスケジュール</span></p>
+            </div>
+          </div>
+          <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-100 rotate-1">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">⚽</span>
+              <p class="text-base leading-relaxed"><span class="font-bold text-orange-600">部活動と両立</span>しながら成績を上げるポイント
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <p class="text-lg leading-relaxed yomogi">
+            中3になってからではなく、<br>
+            <span class="marker-highlight font-bold text-xl">「今」スタートを切るかどうか</span><br>
+            で決まります。
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 5: For 2nd Year Parents -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col p-8 hidden text-primary" data-slide="5">
+        <div class="text-center mb-6">
+          <span
+            class="inline-block bg-teal text-white text-lg font-bold px-6 py-2 rounded-full yomogi shadow-sm rotate-1 border-2 border-white ring-2 ring-teal-200">🌱
+            新中学2年 保護者さまへ</span>
+        </div>
+
+        <div class="space-y-4 flex-1">
+          <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-100 rotate-[-1deg]">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">📈</span>
+              <p class="text-base leading-relaxed">中2の1年間で<span class="font-bold text-teal-600">伸びた生徒／伸び悩んだ生徒</span>の共通点
+              </p>
+            </div>
+          </div>
+          <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-100 rotate-1">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">✅</span>
+              <p class="text-base leading-relaxed">受験生になる前に<span class="font-bold text-teal-600">「中2のうちに終わらせる単元」</span>
+              </p>
+            </div>
+          </div>
+          <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-100 rotate-[-1deg]">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">🏠</span>
+              <p class="text-base leading-relaxed">今のうちに直す<span class="font-bold text-teal-600">「勉強のクセ」「家庭学習」</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <p class="text-lg leading-relaxed yomogi">
+            「まだ中2だから」ではなく、<br>
+            <span class="marker-highlight font-bold text-xl">「今ならまだ間に合う中2」</span><br>
+            です。
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6: Event Info & CTA -->
+      <div class="slide absolute inset-0 hand-made-card flex flex-col p-8 hidden text-primary" data-slide="6">
+        <div class="text-center mb-6">
+          <p class="yomogi text-sm text-secondary mb-1">少人数・予約制</p>
+          <h2
+            class="yomogi text-3xl font-bold bg-accent-blue text-white inline-block px-4 py-1 rotate-[-2deg] shadow-md">
+            中学生 保護者会</h2>
+        </div>
+
+        <div class="bg-gray-50 border-2 border-gray-200 rounded-xl p-5 space-y-4 text-sm relative rotate-1">
+          <div class="flex items-start gap-4">
+            <span class="text-xl pt-1">📅</span>
+            <div>
+              <span class="text-xs text-secondary font-bold mb-1 block">開催日時 (各回 約1時間)</span>
+              <div class="space-y-1">
+                <p class="font-bold text-lg text-primary">
+                  2/21(土) <span class="ml-2 text-base">13:00〜</span>
+                </p>
+                <p class="font-bold text-lg text-primary">
+                  2/22(日) <span class="ml-2 text-base">13:00〜 / 19:00〜</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-xl pt-1">📍</span>
+            <div>
+              <span class="text-xs text-gray-500 block">場所</span>
+              <p class="yomogi text-sm font-bold text-teal-600 mt-1 mb-0.5">「基礎学に一番強い<span
+                  style="font-family: 'Zen Maru Gothic', sans-serif;">塾</span>」</p>
+              <p class="font-bold text-lg school-name">ECCベストワン藍住</p>
+            </div>
+          </div>
+
+          <!-- Tape for visual -->
+          <div
+            class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white/40 border border-white/60 w-24 h-8 rotate-[-3deg] shadow-sm">
+          </div>
+        </div>
+
+        <div class="mt-4 space-y-3 text-center">
+          <p class="text-sm font-bold text-secondary">【お申し込みは簡単！】</p>
+          <div class="flex gap-3 justify-center">
+            <a href="tel:0886925483"
+              class="bg-accent-blue text-white py-2 px-5 rounded-full shadow-md transform hover:scale-105 transition-transform no-underline block">
+              <p class="text-xs opacity-90">📞 お電話</p>
+              <p class="font-bold font-yomogi phone-number">088-692-5483</p>
+            </a>
+            <a href="https://forms.gle/n6GRdVbe7jisfEBS8" target="_blank"
+              class="bg-teal text-white py-2 px-5 rounded-full shadow-md transform hover:scale-105 transition-transform no-underline block">
+              <p class="text-xs opacity-90">📝 フォーム</p>
+              <p class="font-bold text-sm">申込みページへ</p>
+            </a>
+          </div>
+
+          <div class="mt-2">
+            <a href="https://202602-parents-meeting-bestone.vercel.app/" target="_blank"
+              class="inline-block bg-orange-100 text-orange-800 px-4 py-1 rounded-full text-xs font-bold border border-orange-200">
+              🌐 詳しい案内ページはこちら
+            </a>
+            <p class="text-[0.6rem] text-gray-400 mt-1 select-all">https://202602-parents-meeting-bestone.vercel.app/
+            </p>
+          </div>
+
+          <p class="text-xs text-red-500 font-bold mt-2">※各回 限定10名（先着順）</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center gap-4 mt-6">
+      <button id="prevBtn"
+        class="slide-nav-btn w-10 h-10 bg-white border-2 border-gray-300 rounded-full shadow-sm flex items-center justify-center text-gray-600 hover:border-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <div class="flex gap-2" id="dots">
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-600 active" data-dot="1"></button>
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="2"></button>
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="3"></button>
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="4"></button>
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="5"></button>
+        <button class="slide-nav-btn w-3 h-3 rounded-full bg-gray-300" data-dot="6"></button>
+      </div>
+      <button id="nextBtn"
+        class="slide-nav-btn w-10 h-10 bg-white border-2 border-gray-300 rounded-full shadow-sm flex items-center justify-center text-gray-600 hover:border-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+
+
+
+
+    <!-- Slide Counter -->
+    <div class="mt-3 text-gray-500 text-sm yomogi slide-counter">
+      <span id="currentSlide">1</span> / 6
+    </div>
+  </div>
+
+  <script>
+    const defaultConfig = {
+      main_title: '中3受験は、もう始まっています。',
+      school_name: 'ECCベストワン藍住',
+      phone_number: '088-692-5483',
+      primary_color: '#4a4a4a',
+      secondary_color: '#707070',
+      text_color: '#4a4a4a',
+      accent_color: '#ff9f43',
+      background_color: '#fdfcf8'
+    };
+
+    let currentSlide = 1;
+    const totalSlides = 6;
+
+    function showSlide(n) {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('[data-dot]');
+
+      slides.forEach(slide => {
+        slide.classList.add('hidden');
+      });
+
+      dots.forEach(dot => {
+        dot.classList.remove('bg-gray-600', 'active');
+        dot.classList.add('bg-gray-300');
+      });
+
+      const targetSlide = document.querySelector(`[data-slide="${n}"]`);
+      const targetDot = document.querySelector(`[data-dot="${n}"]`);
+
+      if (targetSlide) {
+        targetSlide.classList.remove('hidden');
+      }
+      if (targetDot) {
+        targetDot.classList.remove('bg-gray-300');
+        targetDot.classList.add('bg-gray-600', 'active');
+      }
+
+      document.getElementById('currentSlide').textContent = n;
+    }
+
+    function nextSlide() {
+      currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = currentSlide <= 1 ? totalSlides : currentSlide - 1;
+      showSlide(currentSlide);
+    }
+
+
+
+    document.getElementById('nextBtn').addEventListener('click', nextSlide);
+    document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+    document.querySelectorAll('[data-dot]').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        currentSlide = parseInt(e.target.dataset.dot);
+        showSlide(currentSlide);
+      });
+    });
+
+    // Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const container = document.getElementById('slideContainer');
+
+    container.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      } else if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    }, { passive: true });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Element SDK Integration
+    async function onConfigChange(config) {
+      const mainTitle = config.main_title || defaultConfig.main_title;
+      const schoolName = config.school_name || defaultConfig.school_name;
+      const phoneNumber = config.phone_number || defaultConfig.phone_number;
+
+      // Simple update logic for demo
+      const schoolNameEl = document.querySelector('.school-name');
+      if (schoolNameEl) schoolNameEl.textContent = schoolName;
+
+      const phoneNumberEl = document.querySelector('.phone-number');
+      if (phoneNumberEl) phoneNumberEl.textContent = phoneNumber;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['main_title', config.main_title || defaultConfig.main_title],
+        ['school_name', config.school_name || defaultConfig.school_name],
+        ['phone_number', config.phone_number || defaultConfig.phone_number]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Initial render
+    showSlide(1);
+  </script>
+</body>
+
+</html>
